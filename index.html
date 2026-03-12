@@ -248,37 +248,46 @@
     </div>
 
     <footer>
-        Created by:Neko & Datedd - Maintained by: Gild
+        Created by, - Neko and Datedd
     </footer>
 
 
     <script>
         function sum1() {
             var rarity = document.getElementById('rarity').value;
-            var rarityItemLevel = document.getElementById('rarityitemlevel').value;
+            var rarityItemLevel = parseFloat(document.getElementById('rarityitemlevel').value);
             var res = document.getElementById('result1');
             var res2 = document.getElementById('result2');
             var res3 = document.getElementById('result3');
 
-            if (rarity === "common") {
-                res.value = Math.floor(rarityItemLevel * 4 + 30);
-                res2.value = Math.floor(rarityItemLevel * 4 + 30 + 50);
-                res3.value = Math.floor(rarityItemLevel * 4 + 30 + 100);
-            } else if (rarity === "rare") {
-                res.value = Math.floor(rarityItemLevel * 2 + 15);
-                res2.value = Math.floor(rarityItemLevel * 2 + 15 + 50);
-                res3.value = Math.floor(rarityItemLevel * 2 + 15 + 100);
-            } else if (rarity === "epic") {
-                res.value = Math.floor(rarityItemLevel / 0.75 + 5);
-                res2.value = Math.floor(rarityItemLevel / 0.75 + 5 + 50);
-                res3.value = Math.floor(rarityItemLevel / 0.75 + 5 + 100);
+            if (!rarityItemLevel || rarityItemLevel <= 0) {
+                alert("Please enter a valid item level.");
+                return;
             }
+
+            var legendaryIlvl;
+            if (rarity === "common") {
+                legendaryIlvl = Math.floor(rarityItemLevel * 4 + 30);
+            } else if (rarity === "rare") {
+                legendaryIlvl = Math.floor(rarityItemLevel * 2 + 15);
+            } else if (rarity === "epic") {
+                legendaryIlvl = Math.floor(rarityItemLevel / 0.75 + 5);
+            }
+
+            if (legendaryIlvl > 356) {
+                alert("Please enter a valid item level. The resulting legendary item level cannot exceed 356.");
+                return;
+            }
+
+            res.value = legendaryIlvl;
+            res2.value = legendaryIlvl + 50;
+            res3.value = legendaryIlvl + 100;
         }
 
         const attributes = {
             meleeWeapons: {
                 "HP ": {
-					"value": 0.117,
+					"value": 0.0117,
 					"unit": "%",
 				},
 				"MP ": {
@@ -286,7 +295,7 @@
 					"unit": "%",
 				},
 				"Extra Experience ": {
-					"value": 0.05,
+					"value": 0.004286,
 					"unit": "%",
 				},
 				"Physical damage ": {
@@ -325,7 +334,7 @@
             },
             distanceWeapons: {
                 "HP ": {
-					"value": 0.117,
+					"value": 0.0117,
 					"unit": "%",
 				},
 				"MP ": {
@@ -333,7 +342,7 @@
 					"unit": "%",
 				},
 				"Extra Experience ": {
-					"value": 0.05,
+					"value": 0.004286,
 					"unit": "%",
 				},
 				"Physical damage ": {
@@ -379,7 +388,7 @@
 				},
             wands: {
                 "HP ": {
-					"value": 0.117,
+					"value": 0.0117,
 					"unit": "%",
 				},
 				"MP ": {
@@ -387,7 +396,7 @@
 					"unit": "%",
 				},
 				"Extra Experience ": {
-					"value": 0.05,
+					"value": 0.004286,
 					"unit": "%",
 				},
 				"Physical damage ": {
@@ -441,7 +450,7 @@
             },
             armours: {
                 "HP ": {
-					"value": 0.117,
+					"value": 0.0117,
 					"unit": "%",
 				},
 				"MP ": {
@@ -449,7 +458,7 @@
 					"unit": "%",
 				},
 				"Extra Experience ": {
-					"value": 0.05,
+					"value": 0.004286,
 					"unit": "%",
 				},
 				"Physical Protection ": {
@@ -487,7 +496,7 @@
             },
             boots: {
                 "HP ": {
-					"value": 0.117,
+					"value": 0.0117,
 					"unit": "%",
 				},
 				"MP ": {
@@ -495,7 +504,7 @@
 					"unit": "%",
 				},
 				"Extra Experience ": {
-					"value": 0.05,
+					"value": 0.004286,
 					"unit": "%",
 				},
 				"Physical Protection ": {
@@ -537,7 +546,7 @@
             },
             shields: {
                 "HP ": {
-					"value": 0.117,
+					"value": 0.0117,
 					"unit": "%",
 				},
 				"MP ": {
@@ -545,7 +554,7 @@
 					"unit": "%",
 				},
 				"Extra Experience ": {
-					"value": 0.05,
+					"value": 0.004286,
 					"unit": "%",
 				},
 				"Physical Protection ": {
@@ -591,7 +600,7 @@
             },
             accessories: {
                 "HP ": {
-					"value": 0.117,
+					"value": 0.0117,
 					"unit": "%",
 				},
 				"MP ": {
@@ -599,7 +608,7 @@
 					"unit": "%",
 				},
 				"Extra Experience ": {
-					"value": 0.05,
+					"value": 0.004286,
 					"unit": "%",
 				},
 				"Increased gold Drop ": {
@@ -639,21 +648,21 @@
             const itemLevel = parseFloat(document.getElementById("itemlevel").value);
             const attrList = document.querySelector(".attribute-list");
 
+            if (itemLevel > 356) {
+                alert("Please enter a valid item level (maximum is 356).");
+                return;
+            }
+
             if (type && itemLevel) {
                 attrList.innerHTML = "<p><strong>Attribute Outcomes:</strong></p>";
                 const typeAttrs = attributes[type];
 
                 for (const attr in typeAttrs) {
-                    let attrValue = Math.ceil(typeAttrs[attr].value * itemLevel);  // Rounding up the value
+                    let attrValue = parseFloat((typeAttrs[attr].value * itemLevel).toFixed(2));
 					var attrValueType = typeAttrs[attr].unit;
-                    // Cap HP at 5% (MAX_VALUE=50, displayed as value/10)
-                    if (attr === "HP ") {
-                        attrValue = Math.min(Math.ceil(typeAttrs[attr].value * itemLevel), 5);
-                    }
-                    // Cap Extra Experience at 1.5% (MAX_VALUE=15, displayed as value/10)
+                    // Cap Extra Experience at 1.5% (exceeds cap above max ilvl 356)
                     if (attr === "Extra Experience ") {
-                        attrValue = Math.min(parseFloat((typeAttrs[attr].value * itemLevel).toFixed(4)), 1.5);
-                        attrValue = attrValue % 1 === 0 ? attrValue : parseFloat(attrValue.toFixed(2));
+                        attrValue = Math.min(attrValue, 1.5);
                     }
                     attrList.innerHTML += `<p>${attr}: ${attrValue}${attrValueType}</p>`;
                 }
