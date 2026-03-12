@@ -191,7 +191,7 @@
 
     <div class="container">
         <div class="calculator-section">
-            <h2>Item Level Calculator</h2>
+            <h2>Souls of Elysium Item Level Calculator</h2>
             <form>
                 <label for="rarity">Rarity:</label>
                 <div class="info-container">
@@ -222,7 +222,7 @@
         </div>
 
         <div class="calculator-section">
-            <h2>Attribute Range Calculator</h2>
+            <h2>Souls of Elysium Attribute Calculator</h2>
 
             <label for="typeSelect">Item Type:</label>
             <select id="typeSelect">
@@ -248,7 +248,7 @@
     </div>
 
     <footer>
-        Created: Neko & Datedd - Maintained: Gild
+        Created by, - Neko and Datedd
     </footer>
 
 
@@ -646,9 +646,13 @@
                 for (const attr in typeAttrs) {
                     let attrValue = Math.ceil(typeAttrs[attr].value * itemLevel);  // Rounding up the value
 					var attrValueType = typeAttrs[attr].unit;
-                    // Cap Extra Experience at 15 (MAX_VALUE from source)
+                    // Cap HP at 5% (MAX_VALUE=50, displayed as value/10)
+                    if (attr === "HP ") {
+                        attrValue = Math.min(Math.ceil(typeAttrs[attr].value * itemLevel), 5);
+                    }
+                    // Cap Extra Experience at 1.5% (MAX_VALUE=15, displayed as value/10)
                     if (attr === "Extra Experience ") {
-                        attrValue = Math.min(parseFloat((typeAttrs[attr].value * itemLevel).toFixed(4)), 15);
+                        attrValue = Math.min(parseFloat((typeAttrs[attr].value * itemLevel).toFixed(4)), 1.5);
                         attrValue = attrValue % 1 === 0 ? attrValue : parseFloat(attrValue.toFixed(2));
                     }
                     attrList.innerHTML += `<p>${attr}: ${attrValue}${attrValueType}</p>`;
