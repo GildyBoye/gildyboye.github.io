@@ -755,6 +755,12 @@
                         maxValue = Math.min(maxValue, 1.5);
                     }
 
+                    // Round to nearest integer for non-% attributes
+                    if (attrValueType === "") {
+                        minValue = Math.round(minValue);
+                        maxValue = Math.round(maxValue);
+                    }
+
                     attrList.innerHTML += `<p>${attr}: ${minValue}${attrValueType} — ${maxValue}${attrValueType}</p>`;
                 }
             } else {
