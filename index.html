@@ -1,774 +1,465 @@
 <!DOCTYPE html>
-<!-- saved from url=(0042)https://meownies.github.io/soecalculators/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Souls of Elysium Calculators</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #2c2c2c; /* Dark grey background */
-            color: #d3d3d3; /* Light grey text for contrast */
-        }
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Souls of Elysium — Calculators</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
 
-        h1, h2, h3 {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            color: #e0e0e0; /* Softer grey for headings */
-        }
+:root {
+  --bg:       #0f0e0c;
+  --bg2:      #181612;
+  --bg3:      #211e18;
+  --panel:    #1a1814;
+  --border:   #332e22;
+  --border2:  #4a4232;
+  --gold:     #c8a84b;
+  --gold2:    #e2c96a;
+  --gold-dim: #7a6528;
+  --red:      #b03a3a;
+  --text:     #d4c89a;
+  --text-dim: #7a7060;
+  --text-faint:#3a3428;
+  --white:    #f0e8d0;
+  --header:   52px;
+}
 
-        h1 {
-            font-size: 2.5rem;
-            margin-top: 20px;
-        }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Crimson Pro',Georgia,serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;min-height:100vh;}
 
-        h2 {
-            font-size: 2rem;
-            margin-top: 10px;
-        }
+/* HEADER */
+header{
+  height:var(--header);
+  background:linear-gradient(180deg,#0a0908 0%,var(--bg2) 100%);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;flex-shrink:0;
+}
+header h1{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:var(--gold);letter-spacing:.1em;}
+header h1 span{color:var(--text-dim);font-weight:400;font-size:.8rem;margin-left:8px;letter-spacing:.04em;}
 
-        .container {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            max-width: 1200px;
-            margin: auto;
-            gap: 2cm; /* Adding space between both boxes */
-        }
+.discord-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:2px;border:1px solid #5865f2;
+  background:rgba(88,101,242,.15);color:#7289da;
+  font-size:.65rem;font-family:'Cinzel',serif;letter-spacing:.06em;
+  text-decoration:none;transition:all .2s;
+}
+.discord-btn:hover{background:rgba(88,101,242,.3);color:#fff;}
 
-        .calculator-section {
-            width: 48%;
-            background-color: #3a3a3a; /* Dark grey for the cards */
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Smooth shadow */
-        }
+/* LAYOUT */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    max-width: 1300px;
+    margin: auto;
+    gap: 32px;
+    flex-wrap: wrap;
+}
 
-        /* Results Section */
-        .attribute-list, .results {
-            border: 1px solid #555; /* Border matching the theme */
-            max-width: 475px;  /* Maximum width for input */
-            padding: 15px;
-            background-color: #444; /* Medium grey for results */
-            margin-top: 20px;
-            border-radius: 5px;
-        }
+/* PANELS */
+.panel{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    flex: 1;
+    min-width: 450px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+.panel-head{
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.panel-title{
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
 
-        select {
-            width: 95%;
-            max-width: 600px;  /* Maximum width for select */
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #555;
-            font-size: 1rem;
-            background-color: #555;
-            color: #f4f4f4;
-        }
+.panel-body{ padding: 24px; }
 
-        input {
-            width: 95%;
-            max-width: 475px;  /* Maximum width for input */
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #555;
-            font-size: 1rem;
-            background-color: #555;
-            color: #f4f4f4;
-        }
+/* INPUTS */
+.input-group { margin-bottom: 16px; position: relative; }
+.label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+input, select {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--white);
+    padding: 10px 12px;
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    border-radius: 2px;
+    outline: none;
+}
+input:focus, select:focus { border-color: var(--gold-dim); }
+input[readonly] { color: var(--gold); border-style: dashed; background: transparent; cursor: default; }
 
-        button {
-            width: 95%;
-            max-width: 500px;  /* Maximum width for button */
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #555;
-            font-size: 1rem;
-            background-color: #555;
-            color: #f4f4f4;
-        }
+.btn-gold {
+    width: 100%;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px;
+    border: 1px solid var(--gold2);
+    background: var(--gold);
+    color: #0a0800;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+}
+.btn-gold:hover { background: var(--gold2); transform: translateY(-1px); }
 
-        button {
-            background-color: #666; /* Medium-dark grey */
-            color: #fff; /* White text */
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
+/* RESULTS */
+.result-box {
+    margin-top: 20px;
+    padding: 18px;
+    background: rgba(200, 168, 75, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+}
+.result-box p { margin-bottom: 10px; font-size: 1rem; color: var(--text); }
+.result-box strong { color: var(--gold); }
 
-        button:hover {
-            background-color: #888; /* Lighter grey on hover */
-        }
+.attribute-list-display {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 15px;
+    padding-right: 5px;
+}
+.attribute-list-display::-webkit-scrollbar { width: 4px; }
+.attribute-list-display::-webkit-scrollbar-thumb { background: var(--border2); }
 
-        footer {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #111; /* Very dark grey */
-            color: #f4f4f4; /* Light text */
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 14px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
-        }
+.attr-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.attr-name { color: var(--text-dim); font-size: 0.95rem; }
+.attr-val { color: var(--white); font-weight: 600; font-family: monospace; }
 
-        footer a {
-            color: #f4f4f4; /* Light text */
-            text-decoration: none;
-        }
+/* TOOLTIP */
+.info-icon {
+    width: 16px; height: 16px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--gold);
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: help;
+    position: relative;
+}
+.info-icon:hover::after {
+    content: "Item rarity = The Rarity the item got when it was dropped.";
+    position: absolute; bottom: 125%; right: 0;
+    width: 200px; padding: 8px;
+    background: var(--bg2); border: 1px solid var(--gold-dim);
+    color: var(--white); font-size: 11px; z-index: 10;
+}
 
-        footer a:hover {
-            text-decoration: underline;
-        }
+footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 0.85rem;
+    color: #ffffff;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+}
 
-        /* Tooltip for Info Icon */
-        .info-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .info-icon {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-color: #555;
-            color: #fff;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            position: relative;
-        }
-
-        .tooltip {
-            visibility: hidden;
-            width: 220px;
-            background-color: #444;
-            color: #fff;
-            text-align: center;
-            border-radius: 5px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%; /* Position above the icon */
-            left: 50%;
-            margin-left: -110px; /* Center the tooltip */
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .info-icon:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-                gap: 1cm;
-            }
-
-            .calculator-section {
-                width: 90%;
-                margin-bottom: 20px;
-            }
-        }
-    </style>
+@media (max-width: 950px) { .panel { min-width: 100%; } }
+</style>
 </head>
 <body>
 
-    <h1>Souls of Elysium Calculators</h1>
+<header>
+  <h1>Souls of Elysium <span>/ Calculators</span></h1>
+  <div class="header-right">
+    <a class="discord-btn" href="https://discord.com/invite/NBPPqb3EaM" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      Join Discord
+    </a>
+  </div>
+</header>
 
-    <div class="container">
-        <div class="calculator-section">
-            <h2>Item Level Calculator</h2>
-            <form>
-                <label for="rarity">Rarity:</label>
-                <div class="info-container">
-                    <select id="rarity">
-                        <option value="common">Common</option>
-                        <option value="rare">Rare</option>
-                        <option value="epic">Epic</option>
-                    </select>
-                    <!-- Info Icon -->
-                    <div class="info-icon">
-                        ?
-                        <div class="tooltip">Item rarity = The Rarity the item got when it was dropped.</div>
-                    </div>
-                </div>
-
-                <label for="rarityitemlevel">Current Itemlevel:</label>
-                <input type="text" id="rarityitemlevel">
-
-                <button type="button" onclick="sum1()">Calculate Item Level</button>
-
-                <div class="results">
-                    <p><strong>Results:</strong></p>
-                    <p>Legendary Itemlevel: <input type="text" id="result1" readonly=""></p>
-                    <p>Accesories Max Itemlevel (+5): <input type="text" id="result2" readonly=""></p>
-                    <p>Weapons and Armours Max Itemlevel (+10): <input type="text" id="result3" readonly=""></p>
-                </div>
-            </form>
+<div class="container">
+    <div class="panel">
+        <div class="panel-head">
+            <span class="panel-title">Item Level Calculator</span>
+            <div class="info-icon">?</div>
         </div>
-
-        <div class="calculator-section">
-            <h2>Attribute Calculator</h2>
-
-            <label for="typeSelect">Item Type:</label>
-            <select id="typeSelect">
-                <option value="" selected="">Select item type</option>
-                <option value="meleeWeapons">Melee Weapons</option>
-                <option value="distanceWeapons">Distance Weapons</option>
-                <option value="wands">Wands and Rods</option>
-                <option value="armours">Helmets, Armours or Pants</option>
-                <option value="boots">Boots</option>
-                <option value="shields">Shields</option>
-                <option value="accessories">Ring, Necklace</option>
-            </select>
-
-            <label for="itemlevel">Itemlevel:</label>
-            <input type="text" id="itemlevel">
-
-            <button type="button" onclick="changeType()">Calculate Attributes</button>
-
-            <div class="attribute-list">
-                <p><strong>Attribute Outcomes:</strong></p>
+        <div class="panel-body">
+            <div class="input-group">
+                <span class="label">Rarity</span>
+                <select id="rarity">
+                    <option value="common">Common</option>
+                    <option value="rare">Rare</option>
+                    <option value="epic">Epic</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="label">Current Item Level</span>
+                <input type="number" id="rarityitemlevel" placeholder="Enter level">
+            </div>
+            <button class="btn-gold" onclick="sum1()">Calculate Item Level</button>
+            
+            <div class="result-box">
+                <div class="input-group">
+                    <span class="label">Legendary Itemlevel</span>
+                    <input type="text" id="result1" readonly placeholder="—">
+                </div>
+                <div class="input-group">
+                    <span class="label">Accessories Max (+5)</span>
+                    <input type="text" id="result2" readonly placeholder="—">
+                </div>
+                <div class="input-group">
+                    <span class="label">Weapons/Armor Max (+10)</span>
+                    <input type="text" id="result3" readonly placeholder="—">
+                </div>
             </div>
         </div>
     </div>
 
-    <footer>
-        Created by: Neko &amp; Datedd - Maintained by: Gild
-    </footer>
+    <div class="panel">
+        <div class="panel-head"><span class="panel-title">Attribute Calculator</span></div>
+        <div class="panel-body">
+            <div class="input-group">
+                <span class="label">Item Type</span>
+                <select id="typeSelect">
+                    <option value="" selected>Select item type</option>
+                    <option value="meleeWeapons">Melee Weapons</option>
+                    <option value="distanceWeapons">Distance Weapons</option>
+                    <option value="wands">Wands and Rods</option>
+                    <option value="armours">Helmets, Armours or Pants</option>
+                    <option value="boots">Boots</option>
+                    <option value="shields">Shields</option>
+                    <option value="accessories">Ring, Necklace</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="label">Item Level</span>
+                <input type="number" id="itemlevel" placeholder="Max 356">
+            </div>
+            <button class="btn-gold" onclick="changeType()">Calculate Attributes</button>
+            
+            <div class="result-box">
+                <p><strong>Attribute Outcomes:</strong></p>
+                <div id="attr-results-list" class="attribute-list-display">
+                    <p style="color: var(--text-faint); font-style: italic;">Results will appear here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<footer>
+    Created by: Neko & Datedd — Maintained by: Gild
+</footer>
 
-    <script>
-        function sum1() {
-            var rarity = document.getElementById('rarity').value;
-            var rarityItemLevel = parseFloat(document.getElementById('rarityitemlevel').value);
-            var res = document.getElementById('result1');
-            var res2 = document.getElementById('result2');
-            var res3 = document.getElementById('result3');
+<script>
+    // 1:1 RESTORATION OF ORIGINAL SUM1 LOGIC
+    function sum1() {
+        var rarity = document.getElementById('rarity').value;
+        var rarityItemLevel = parseFloat(document.getElementById('rarityitemlevel').value);
+        var res = document.getElementById('result1');
+        var res2 = document.getElementById('result2');
+        var res3 = document.getElementById('result3');
 
-            if (!rarityItemLevel || rarityItemLevel <= 0) {
-                alert("Please enter a valid item level.");
-                return;
-            }
-
-            var legendaryIlvl;
-            if (rarity === "common") {
-                legendaryIlvl = Math.floor(rarityItemLevel * 4 + 30);
-            } else if (rarity === "rare") {
-                legendaryIlvl = Math.floor(rarityItemLevel * 2 + 15);
-            } else if (rarity === "epic") {
-                legendaryIlvl = Math.floor(rarityItemLevel / 0.75 + 5);
-            }
-
-            if (legendaryIlvl > 356) {
-                alert("Please enter a valid item level. The resulting legendary item level cannot exceed 356.");
-                return;
-            }
-
-            res.value = legendaryIlvl;
-            res2.value = legendaryIlvl + 50;
-            res3.value = legendaryIlvl + 100;
+        if (!rarityItemLevel || rarityItemLevel <= 0) {
+            alert("Please enter a valid item level.");
+            return;
         }
 
-        const attributes = {
-            meleeWeapons: {
-                "HP ": {
-					"value": 0.0117,
-					"unit": "%",
-					"min": 0,
-				},
-				"MP ": {
-					"value": 0.0205,
-					"unit": "%",
-					"min": 0,
-				},
-				"Extra Experience ": {
-					"value": 0.004286,
-					"unit": "%",
-					"min": 0,
-				},
-				"Physical damage ": {
-					"value": 0.05,
-					"unit": "%",
-					"min": 0,
-				},
-				"Elemental damage ": {
-					"value": 0.03,
-					"unit": "%",
-					"min": 0,
-				},
-				"Chance to deal Double damage": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Damage taken recouped as life": {
-					"value": 0.058,
-					"unit": "%",
-					"min": 0,
-				},
-				"Health on kill": {
-					"value": 0.2,
-					"unit": "",
-					"min": 1,
-				},
-				"One-handed skill": {
-					"value": 0.01,
-					"unit": "",
-					"min": 1,
-				},
-				"Two-handed skill": {
-					"value": 0.01,
-					"unit": "",
-					"min": 1,
-				},
-				"Melee skill": {
-					"value": 0.01,
-					"unit": "",
-					"min": 1,
-				},
+        var legendaryIlvl;
+        if (rarity === "common") {
+            legendaryIlvl = Math.floor(rarityItemLevel * 4 + 30);
+        } else if (rarity === "rare") {
+            legendaryIlvl = Math.floor(rarityItemLevel * 2 + 15);
+        } else if (rarity === "epic") {
+            legendaryIlvl = Math.floor(rarityItemLevel / 0.75 + 5);
+        }
 
-            },
-            distanceWeapons: {
-                "HP ": {
-					"value": 0.0117,
-					"unit": "%",
-					"min": 0,
-				},
-				"MP ": {
-					"value": 0.0205,
-					"unit": "%",
-					"min": 0,
-				},
-				"Extra Experience ": {
-					"value": 0.004286,
-					"unit": "%",
-					"min": 0,
-				},
-				"Physical damage ": {
-					"value": 0.05,
-					"unit": "%",
-					"min": 0,
-				},
-				"Elemental damage ": {
-						"value": 0.03,
-						"unit": "%",
-						"min": 0,
-				},
-				"Energy damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Fire damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Ice damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Holy damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Chance to deal Double damage": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Damage taken recouped as life": {
-					"value": 0.058,
-					"unit": "%",
-					"min": 0,
-				},
-				"Health on kill": {
-					"value": 0.2,
-					"unit": "",
-					"min": 1,
-				},
-				"Distance": {
-					"value": 0.02,
-					"unit": "",
-					"min": 1,
-				},
-				},
-            wands: {
-                "HP ": {
-					"value": 0.0117,
-					"unit": "%",
-					"min": 0,
-				},
-				"MP ": {
-					"value": 0.0205,
-					"unit": "%",
-					"min": 0,
-				},
-				"Extra Experience ": {
-					"value": 0.004286,
-					"unit": "%",
-					"min": 0,
-				},
-				"Physical damage ": {
-					"value": 0.05,
-					"unit": "%",
-					"min": 0,
-				},
-				"Elemental damage ": {
-						"value": 0.03,
-						"unit": "%",
-						"min": 0,
-				},
-				"Energy damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Fire damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Ice damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Earth damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Death damage ": {
-						"value": 0.05,
-						"unit": "%",
-						"min": 0,
-				},
-				"Chance to deal Double damage": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Damage taken recouped as life": {
-					"value": 0.058,
-					"unit": "%",
-					"min": 0,
-				},
-				"Spellcost Reduction": {
-					"value":0.034,
-					"unit": "%",
-					"min": 0,
-				},
-				"Health on kill": {
-					"value": 0.2,
-					"unit": "",
-					"min": 1,
-				},
-				"Magic Level": {
-					"value": 0.02,
-					"unit": "",
-					"min": 1,
-				},
-            },
-            armours: {
-                "HP ": {
-					"value": 0.0117,
-					"unit": "%",
-					"min": 0,
-				},
-				"MP ": {
-					"value": 0.0205,
-					"unit": "%",
-					"min": 0,
-				},
-				"Extra Experience ": {
-					"value": 0.004286,
-					"unit": "%",
-					"min": 0,
-				},
-				"Physical Protection ": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Elemental Protection ": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Energy Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Fire Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Ice Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Earth Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Holy Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Death Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-            },
-            boots: {
-                "HP ": {
-					"value": 0.0117,
-					"unit": "%",
-					"min": 0,
-				},
-				"MP ": {
-					"value": 0.0205,
-					"unit": "%",
-					"min": 0,
-				},
-				"Extra Experience ": {
-					"value": 0.004286,
-					"unit": "%",
-					"min": 0,
-				},
-				"Physical Protection ": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Elemental Protection ": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Energy Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Fire Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Ice Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Earth Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Holy Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Death Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Increased gold Drop ": {
-					"value": 0.03,
-					"unit": "%",
-					"min": 0,
-				},
-            },
-            shields: {
-                "HP ": {
-					"value": 0.0117,
-					"unit": "%",
-					"min": 0,
-				},
-				"MP ": {
-					"value": 0.0205,
-					"unit": "%",
-					"min": 0,
-				},
-				"Extra Experience ": {
-					"value": 0.004286,
-					"unit": "%",
-					"min": 0,
-				},
-				"Physical Protection ": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Elemental Protection ": {
-					"value": 0.01,
-					"unit": "%",
-					"min": 0,
-				},
-				"Energy Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Fire Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Ice Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Earth Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Holy Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Death Protection ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Increased gold Drop ": {
-					"value": 0.03,
-					"unit": "%",
-					"min": 0,
-				},
-				"Increased Healing ": {
-					"value": 0.028,
-					"unit": "%",
-					"min": 0,
-				},
-            },
-            accessories: {
-                "HP ": {
-					"value": 0.0117,
-					"unit": "%",
-					"min": 0,
-				},
-				"MP ": {
-					"value": 0.0205,
-					"unit": "%",
-					"min": 0,
-				},
-				"Extra Experience ": {
-					"value": 0.004286,
-					"unit": "%",
-					"min": 0,
-				},
-				"Increased gold Drop ": {
-					"value": 0.03,
-					"unit": "%",
-					"min": 0,
-				},
-				"Increased Healing ": {
-					"value": 0.028,
-					"unit": "%",
-					"min": 0,
-				},
-				"Max HP Buff ": {
-					"value": 0.02,
-					"unit": "%",
-					"min": 0,
-				},
-				"Magic Level": {
-					"value": 0.02,
-					"unit": "",
-					"min": 1,
-				},
-				"Distance": {
-					"value": 0.02,
-					"unit": "",
-					"min": 1,
-				},
-				"One-handed skill": {
-					"value": 0.01,
-					"unit": "",
-					"min": 1,
-				},
-				"Two-handed skill": {
-					"value": 0.01,
-					"unit": "",
-					"min": 1,
-				},
+        if (legendaryIlvl > 356) {
+            alert("Please enter a valid item level. The resulting legendary item level cannot exceed 356.");
+            return;
+        }
 
-				
-            },
-}
-        function changeType() {
-            const type = document.getElementById("typeSelect").value;
-            const itemLevel = parseFloat(document.getElementById("itemlevel").value);
-            const attrList = document.querySelector(".attribute-list");
+        res.value = legendaryIlvl;
+        res2.value = legendaryIlvl + 50;
+        res3.value = legendaryIlvl + 100;
+    }
 
-            if (itemLevel > 356) {
-                alert("Please enter a valid item level (maximum is 356).");
-                return;
-            }
+    // 1:1 RESTORATION OF FULL ATTRIBUTE OBJECT
+    const attributes = {
+        meleeWeapons: {
+            "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
+            "MP ": { "value": 0.0205, "unit": "%", "min": 0 },
+            "Extra Experience ": { "value": 0.004286, "unit": "%", "min": 0 },
+            "Physical damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Elemental damage ": { "value": 0.03, "unit": "%", "min": 0 },
+            "Chance to deal Double damage": { "value": 0.01, "unit": "%", "min": 0 },
+            "Damage taken recouped as life": { "value": 0.058, "unit": "%", "min": 0 },
+            "Health on kill": { "value": 0.2, "unit": "", "min": 1 },
+            "One-handed skill": { "value": 0.01, "unit": "", "min": 1 },
+            "Two-handed skill": { "value": 0.01, "unit": "", "min": 1 },
+            "Melee skill": { "value": 0.01, "unit": "", "min": 1 }
+        },
+        distanceWeapons: {
+            "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
+            "MP ": { "value": 0.0205, "unit": "%", "min": 0 },
+            "Extra Experience ": { "value": 0.004286, "unit": "%", "min": 0 },
+            "Physical damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Elemental damage ": { "value": 0.03, "unit": "%", "min": 0 },
+            "Energy damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Fire damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Ice damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Holy damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Chance to deal Double damage": { "value": 0.01, "unit": "%", "min": 0 },
+            "Damage taken recouped as life": { "value": 0.058, "unit": "%", "min": 0 },
+            "Health on kill": { "value": 0.2, "unit": "", "min": 1 },
+            "Distance": { "value": 0.02, "unit": "", "min": 1 }
+        },
+        wands: {
+            "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
+            "MP ": { "value": 0.0205, "unit": "%", "min": 0 },
+            "Extra Experience ": { "value": 0.004286, "unit": "%", "min": 0 },
+            "Physical damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Elemental damage ": { "value": 0.03, "unit": "%", "min": 0 },
+            "Energy damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Fire damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Ice damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Earth damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Death damage ": { "value": 0.05, "unit": "%", "min": 0 },
+            "Chance to deal Double damage": { "value": 0.01, "unit": "%", "min": 0 },
+            "Damage taken recouped as life": { "value": 0.058, "unit": "%", "min": 0 },
+            "Spellcost Reduction": { "value": 0.034, "unit": "%", "min": 0 },
+            "Health on kill": { "value": 0.2, "unit": "", "min": 1 },
+            "Magic Level": { "value": 0.02, "unit": "", "min": 1 }
+        },
+        armours: {
+            "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
+            "MP ": { "value": 0.0205, "unit": "%", "min": 0 },
+            "Extra Experience ": { "value": 0.004286, "unit": "%", "min": 0 },
+            "Physical Protection ": { "value": 0.01, "unit": "%", "min": 0 },
+            "Elemental Protection ": { "value": 0.01, "unit": "%", "min": 0 },
+            "Energy Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Fire Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Ice Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Earth Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Holy Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Death Protection ": { "value": 0.02, "unit": "%", "min": 0 }
+        },
+        boots: {
+            "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
+            "MP ": { "value": 0.0205, "unit": "%", "min": 0 },
+            "Extra Experience ": { "value": 0.004286, "unit": "%", "min": 0 },
+            "Physical Protection ": { "value": 0.01, "unit": "%", "min": 0 },
+            "Elemental Protection ": { "value": 0.01, "unit": "%", "min": 0 },
+            "Energy Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Fire Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Ice Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Earth Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Holy Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Death Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Increased gold Drop ": { "value": 0.03, "unit": "%", "min": 0 }
+        },
+        shields: {
+            "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
+            "MP ": { "value": 0.0205, "unit": "%", "min": 0 },
+            "Extra Experience ": { "value": 0.004286, "unit": "%", "min": 0 },
+            "Physical Protection ": { "value": 0.01, "unit": "%", "min": 0 },
+            "Elemental Protection ": { "value": 0.01, "unit": "%", "min": 0 },
+            "Energy Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Fire Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Ice Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Earth Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Holy Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Death Protection ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Increased gold Drop ": { "value": 0.03, "unit": "%", "min": 0 },
+            "Increased Healing ": { "value": 0.028, "unit": "%", "min": 0 }
+        },
+        accessories: {
+            "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
+            "MP ": { "value": 0.0205, "unit": "%", "min": 0 },
+            "Extra Experience ": { "value": 0.004286, "unit": "%", "min": 0 },
+            "Increased gold Drop ": { "value": 0.03, "unit": "%", "min": 0 },
+            "Increased Healing ": { "value": 0.028, "unit": "%", "min": 0 },
+            "Max HP Buff ": { "value": 0.02, "unit": "%", "min": 0 },
+            "Magic Level": { "value": 0.02, "unit": "", "min": 1 },
+            "Distance": { "value": 0.02, "unit": "", "min": 1 },
+            "One-handed skill": { "value": 0.01, "unit": "", "min": 1 },
+            "Two-handed skill": { "value": 0.01, "unit": "", "min": 1 }
+        }
+    };
 
-            if (type && itemLevel) {
-                attrList.innerHTML = "<p><strong>Attribute Outcomes:</strong></p>";
-                const typeAttrs = attributes[type];
+    // 1:1 RESTORATION OF CHANGETYPE LOGIC
+    function changeType() {
+        const type = document.getElementById("typeSelect").value;
+        const itemLevel = parseFloat(document.getElementById("itemlevel").value);
+        const attrList = document.getElementById("attr-results-list");
 
-                for (const attr in typeAttrs) {
-                    const rate = typeAttrs[attr].value;
-                    const attrValueType = typeAttrs[attr].unit;
-                    const minVal = typeAttrs[attr].min;
+        if (itemLevel > 356) {
+            alert("Please enter a valid item level (maximum is 356).");
+            return;
+        }
 
-                    let minValue = Math.max(minVal, parseFloat((rate * 1).toFixed(2)));
-                    let maxValue = Math.max(minVal, parseFloat((rate * itemLevel).toFixed(2)));
+        if (type && itemLevel) {
+            attrList.innerHTML = "";
+            const typeAttrs = attributes[type];
 
-                    // Cap Extra Experience at 1.5%
-                    if (attr === "Extra Experience ") {
-                        maxValue = Math.min(maxValue, 1.5);
-                    }
+            for (const attr in typeAttrs) {
+                const rate = typeAttrs[attr].value;
+                const attrValueType = typeAttrs[attr].unit;
+                const minVal = typeAttrs[attr].min;
 
-                    // Round to nearest integer for non-% attributes
-                    if (attrValueType === "") {
-                        minValue = Math.round(minValue);
-                        maxValue = Math.round(maxValue);
-                    }
+                let minValue = Math.max(minVal, parseFloat((rate * 1).toFixed(2)));
+                let maxValue = Math.max(minVal, parseFloat((rate * itemLevel).toFixed(2)));
 
-                    attrList.innerHTML += `<p>${attr}: ${minValue}${attrValueType} — ${maxValue}${attrValueType}</p>`;
+                // Cap Extra Experience at 1.5%
+                if (attr === "Extra Experience ") {
+                    maxValue = Math.min(maxValue, 1.5);
                 }
-            } else {
-                alert("Please select an item type and enter the item level.");
+
+                // Round to nearest integer for non-% attributes
+                if (attrValueType === "") {
+                    minValue = Math.round(minValue);
+                    maxValue = Math.round(maxValue);
+                }
+
+                attrList.innerHTML += `
+                    <div class="attr-row">
+                        <span class="attr-name">${attr}</span>
+                        <span class="attr-val">${minValue}${attrValueType} — ${maxValue}${attrValueType}</span>
+                    </div>`;
             }
+        } else {
+            alert("Please select an item type and enter the item level.");
         }
-    </script>
+    }
+</script>
 
-
-
-</body></html>
+</body>
+</html>
