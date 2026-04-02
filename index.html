@@ -261,7 +261,7 @@ footer {
             </div>
             <div class="input-group">
                 <span class="label">Item Level</span>
-                <input type="number" id="itemlevel" placeholder="Max 356">
+                <input type="number" id="itemlevel" placeholder="Max 378">
             </div>
             <button class="btn-gold" onclick="changeType()">Calculate Attributes</button>
             
@@ -302,8 +302,8 @@ footer {
             legendaryIlvl = Math.floor(rarityItemLevel / 0.75 + 5);
         }
 
-        if (legendaryIlvl > 356) {
-            alert("Please enter a valid item level. The resulting legendary item level cannot exceed 356.");
+        if (legendaryIlvl > 378) {
+            alert("Please enter a valid item level. The resulting legendary item level cannot exceed 378.");
             return;
         }
 
@@ -421,8 +421,8 @@ footer {
         const itemLevel = parseFloat(document.getElementById("itemlevel").value);
         const attrList = document.getElementById("attr-results-list");
 
-        if (itemLevel > 356) {
-            alert("Please enter a valid item level (maximum is 356).");
+        if (itemLevel > 378) {
+            alert("Please enter a valid item level (maximum is 378).");
             return;
         }
 
