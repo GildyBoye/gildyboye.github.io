@@ -323,9 +323,9 @@ footer {
             "Chance to deal Double damage": { "value": 0.01, "unit": "%", "min": 0 },
             "Damage taken recouped as life": { "value": 0.058, "unit": "%", "min": 0 },
             "Health on kill": { "value": 0.2, "unit": "", "min": 1 },
-            "One-handed skill": { "value": 0.01, "unit": "", "min": 1 },
-            "Two-handed skill": { "value": 0.01, "unit": "", "min": 1 },
-            "Melee skill": { "value": 0.01, "unit": "", "min": 1 }
+            "One-handed skill": { "unit": "", "formula": (ilvl) => Math.floor((ilvl - 1) / 50) + 1 },
+            "Two-handed skill": { "unit": "", "formula": (ilvl) => Math.floor((ilvl - 1) / 50) + 1 },
+            "Melee skill": { "unit": "", "formula": (ilvl) => Math.floor((ilvl - 1) / 50) + 1 }
         },
         distanceWeapons: {
             "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
@@ -400,7 +400,7 @@ footer {
             "Death Protection ": { "value": 0.02, "unit": "%", "min": 0 },
             "Increased gold Drop ": { "value": 0.03, "unit": "%", "min": 0 },
             "Increased Healing ": { "value": 0.028, "unit": "%", "min": 0 },
-            "Shielding": { "value": 0.02, "unit": "", "min": 1 }
+            "Shielding": { "unit": "", "formula": (ilvl) => Math.floor((ilvl - 1) / 50) + 1 }
         },
         accessories: {
             "HP ": { "value": 0.0117, "unit": "%", "min": 0 },
@@ -409,9 +409,9 @@ footer {
             "Increased gold Drop ": { "value": 0.03, "unit": "%", "min": 0 },
             "Increased Healing ": { "value": 0.028, "unit": "%", "min": 0 },
             "Max HP Buff ": { "value": 0.02, "unit": "%", "min": 0 },
-            "Magic Level": { "value": 0.02, "unit": "", "min": 1 },
-            "Distance": { "value": 0.02, "unit": "", "min": 1 },
-            "One-handed skill": { "value": 0.01, "unit": "", "min": 1 },
+            "Magic Level": { "unit": "", "formula": (ilvl) => Math.floor((ilvl - 1) / 50) + 1 },
+            "Distance": { "unit": "", "formula": (ilvl) => Math.floor((ilvl - 1) / 50) + 1 },
+            "One-handed skill": { "unit": "", "formula": (ilvl) => Math.floor((ilvl - 1) / 50) + 1 },
             "Two-handed skill": { "value": 0.01, "unit": "", "min": 1 }
         }
     };
@@ -432,27 +432,36 @@ footer {
             const typeAttrs = attributes[type];
 
             for (const attr in typeAttrs) {
-                const rate = typeAttrs[attr].value;
-                const attrValueType = typeAttrs[attr].unit;
-                const minVal = typeAttrs[attr].min;
+                const attrDef = typeAttrs[attr];
+                const attrValueType = attrDef.unit;
 
-                let minValue = Math.max(minVal, parseFloat((rate * 1).toFixed(2)));
-                let maxValue = Math.max(minVal, parseFloat((rate * itemLevel).toFixed(2)));
+                let minValue, maxValue;
 
-                // Cap Extra Experience at 1.5% (MAX_VALUE = 15, displayed as value/10)
-                if (attr === "Extra Experience ") {
-                    maxValue = Math.min(maxValue, 1.5);
-                }
+                if (attrDef.formula) {
+                    minValue = attrDef.formula(1);
+                    maxValue = attrDef.formula(itemLevel);
+                } else {
+                    const rate = attrDef.value;
+                    const minVal = attrDef.min;
 
-                // Cap HP at 5.0% (MAX_VALUE = 50, displayed as value/10)
-                if (attr === "HP ") {
-                    maxValue = Math.min(maxValue, 5.0);
-                }
+                    minValue = Math.max(minVal, parseFloat((rate * 1).toFixed(2)));
+                    maxValue = Math.max(minVal, parseFloat((rate * itemLevel).toFixed(2)));
 
-                // Round to nearest integer for non-% attributes
-                if (attrValueType === "") {
-                    minValue = Math.round(minValue);
-                    maxValue = Math.round(maxValue);
+                    // Cap Extra Experience at 1.5% (MAX_VALUE = 15, displayed as value/10)
+                    if (attr === "Extra Experience ") {
+                        maxValue = Math.min(maxValue, 1.5);
+                    }
+
+                    // Cap HP at 5.0% (MAX_VALUE = 50, displayed as value/10)
+                    if (attr === "HP ") {
+                        maxValue = Math.min(maxValue, 5.0);
+                    }
+
+                    // Round to nearest integer for non-% attributes
+                    if (attrValueType === "") {
+                        minValue = Math.round(minValue);
+                        maxValue = Math.round(maxValue);
+                    }
                 }
 
                 attrList.innerHTML += `
